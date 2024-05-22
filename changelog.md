@@ -1,1 +1,1 @@
-updated to work with farmers delight refabricated
+fixed mod.json

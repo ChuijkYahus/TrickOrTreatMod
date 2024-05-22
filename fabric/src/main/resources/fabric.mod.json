@@ -38,6 +38,6 @@
     "moonlight": ">=1.20-2.5.10"
   },
   "breaks": {
-    "farmersdelight": "<1.20-2.0.0"
+    "farmersdelight": "<1.20.1-2.0.0"
   }
 }
