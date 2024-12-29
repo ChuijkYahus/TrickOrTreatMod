@@ -28,8 +28,4 @@ public class HHPlatformStuff {
         throw new AssertionError();
     }
 
-    @ExpectPlatform
-    public static ShaderInstance getBlur() {
-        throw new AssertionError();
-    }
 }

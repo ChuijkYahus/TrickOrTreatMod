@@ -11,7 +11,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/haunted-harvest",
     "sources": "https://github.com/MehVahdJukaar/SnowySpirit/tree/master/src/main/java/net/mehvahdjukaar/TrickOrTreatMod"
   },
-  "license": "ARR",
+  "license": "Supplementaries Team License 1.2",
   "icon": "icon.png",
   "environment": "*",
   "entrypoints": {

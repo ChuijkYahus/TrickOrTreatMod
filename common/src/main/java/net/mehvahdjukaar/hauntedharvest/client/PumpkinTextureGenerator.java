@@ -162,7 +162,7 @@ public class PumpkinTextureGenerator {
             RenderSystem.depthMask(false);
             RenderSystem.disableBlend();
 
-            RenderSystem.setShader(HHPlatformStuff::getBlur);
+            RenderSystem.setShader(ClientRegistry::getBlur);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1);
 
             BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();

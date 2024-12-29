@@ -4,6 +4,7 @@ import net.mehvahdjukaar.hauntedharvest.forge.PumpkinBlurGuiOverlay;
 import net.mehvahdjukaar.hauntedharvest.items.ModCarvedPumpkinItem;
 import net.mehvahdjukaar.moonlight.api.client.ICustomItemRendererProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +23,7 @@ public abstract class SelfCarvedPumpkinItemMixin extends Item {
 
     @Override
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
-        if(this instanceof ICustomItemRendererProvider provider) {
+        if (this instanceof ICustomItemRendererProvider provider) {
             consumer.accept(new IClientItemExtensions() {
 
                 @Override

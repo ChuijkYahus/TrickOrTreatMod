@@ -1,8 +1,10 @@
-package net.mehvahdjukaar.hauntedharvest.client;
+package net.mehvahdjukaar.hauntedharvest.client.model;
 
 import com.mojang.math.Transformation;
 import net.mehvahdjukaar.hauntedharvest.blocks.ModCarvedPumpkinBlock;
 import net.mehvahdjukaar.hauntedharvest.blocks.ModCarvedPumpkinBlockTile;
+import net.mehvahdjukaar.hauntedharvest.client.CarvingManager;
+import net.mehvahdjukaar.hauntedharvest.client.PumpkinTextureGenerator;
 import net.mehvahdjukaar.moonlight.api.client.model.BakedQuadBuilder;
 import net.mehvahdjukaar.moonlight.api.client.model.CustomBakedModel;
 import net.mehvahdjukaar.moonlight.api.client.model.ExtraModelData;

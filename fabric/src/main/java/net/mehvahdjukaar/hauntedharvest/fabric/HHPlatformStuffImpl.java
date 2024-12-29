@@ -23,8 +23,5 @@ public class HHPlatformStuffImpl {
     public static void addPumpkinData(ModCarvedPumpkinBlockTile tile, SnowGolem snowGolem) {
     }
 
-    public static ShaderInstance getBlur() {
-        return null;
-    }
 
 }

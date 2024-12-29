@@ -29,7 +29,7 @@ public class CommonConfigs {
 
         builder.push("pumpkin_carving");
         CUSTOM_CARVINGS = builder.comment("Allows custom carved pumpkins to be placed by villagers and appear in abandoned farm structure")
-                .define("custom_carvings",true);
+                .define("custom_carvings", true);
         PUMPKIN_CARVE_MODE = builder.comment("Pumpkin carving mode")
                 .define("pumpkin_carve_mode", ModCarvedPumpkinBlock.CarveMode.BOTH);
         JACK_O_LANTERN_CARVE_MODE = builder.comment("Jack o Lantern carving mode")
@@ -51,7 +51,7 @@ public class CommonConfigs {
 
         builder.push("mob_pumpkins_season");
         WEAR_CHANCE = builder.comment("Chance for a mob to wear a pumpkin. All this does not affect vanilla halloween behavior")
-                .define("wear_chance", 0.25, 0,1f);
+                .define("wear_chance", 0.25, 0, 1f);
         P_START_MONTH = builder.comment("Day from which zombies and skeletons can wear pumpkins")
                 .define("start_month", 10, 1, 12);
         P_START_DAY = builder.comment("Day from which zombies and skeletons can wear pumpkins")
@@ -80,7 +80,6 @@ public class CommonConfigs {
         builder.pop();
 
 
-
         builder.push("general");
         CREATIVE_TAB = builder.comment("Enable Creative Tab").define("creative_tab", false);
 
@@ -90,16 +89,24 @@ public class CommonConfigs {
 
         builder.comment("Here are configs that need reloading to take effect");
         builder.push("features");
+
+        builder.push("paper_bag");
+        PAPER_BAG = feature(builder);
+        PAPER_BAG_NAME_TAG = builder.comment("Wearing a paper bag will hide the player's name tag")
+                .define("hide_name_tag", true);
+        builder.pop();
+
         CORN_ENABLED = feature(builder, ModRegistry.CORN_NAME, true);
         GRIM_APPLE = feature(builder, ModRegistry.GRIM_APPLE_NAME, true);
-        PAPER_BAG = feature(builder, ModRegistry.PAPER_BAG_NAME, true);
         POPCORN_ENABLED = feature(builder, ModRegistry.POPCORN_NAME, true);
         CARVED_PUMPKINS_ENABLED = feature(builder, ModRegistry.CARVED_PUMPKIN_NAME, true);
         SPLATTERED_EGG_ENABLED = feature(builder, ModRegistry.SPLATTERED_EGG_NAME, true);
         CANDY_CORN_ENABLED = feature(builder, ModRegistry.CANDY_CORN_NAME, true);
         builder.pop();
 
-        builder.onChange(()->HauntedHarvest.getSeasonManager().refresh());
+        builder.onChange(() -> HauntedHarvest.getSeasonManager().refresh());
+
+        builder.setSynced();
 
         SPEC = builder.buildAndRegister();
         SPEC.loadFromFile();        //load early
@@ -129,11 +136,10 @@ public class CommonConfigs {
     public static final Supplier<Boolean> SEASONS_MOD_COMPAT;
 
 
-
-
     public static final Supplier<Boolean> CORN_ENABLED;
     public static final Supplier<Boolean> GRIM_APPLE;
     public static final Supplier<Boolean> PAPER_BAG;
+    public static final Supplier<Boolean> PAPER_BAG_NAME_TAG;
     public static final Supplier<Boolean> POPCORN_ENABLED;
     public static final Supplier<Boolean> SPLATTERED_EGG_ENABLED;
     public static final Supplier<Boolean> CARVED_PUMPKINS_ENABLED;
@@ -148,11 +154,18 @@ public class CommonConfigs {
         return CUSTOM_CARVINGS.get() && CARVED_PUMPKINS_ENABLED.get();
     }
 
+    private static Supplier<Boolean> feature(ConfigBuilder builder, String name, boolean value) {
+        return feature(builder, name, name, value);
+    }
 
-    private static Supplier<Boolean> feature(ConfigBuilder builder, String name, Boolean value) {
-        var config = builder.define(name, value);
-        FEATURES.put(name, config);
+    private static Supplier<Boolean> feature(ConfigBuilder builder, String name, String key, boolean value) {
+        var config = builder.gameRestart().define(name, value);
+        FEATURES.put(key, config);
         return config;
+    }
+
+    private static Supplier<Boolean> feature(ConfigBuilder builder) {
+        return feature(builder, "enabled", builder.currentCategory(), true);
     }
 
     public static boolean isEnabled(String key) {

@@ -1,21 +1,26 @@
 package net.mehvahdjukaar.hauntedharvest.reg;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.mehvahdjukaar.hauntedharvest.HauntedHarvest;
 import net.mehvahdjukaar.hauntedharvest.blocks.PumpkinType;
-import net.mehvahdjukaar.hauntedharvest.client.*;
+import net.mehvahdjukaar.hauntedharvest.client.CarvedPumpkinTileRenderer;
+import net.mehvahdjukaar.hauntedharvest.client.CarvingManager;
+import net.mehvahdjukaar.hauntedharvest.client.HalloweenMaskLayer;
+import net.mehvahdjukaar.hauntedharvest.client.SplatteredEggRenderer;
 import net.mehvahdjukaar.hauntedharvest.client.gui.CarvingTooltipComponent;
+import net.mehvahdjukaar.hauntedharvest.client.model.CarvedPumpkinBakedModel;
+import net.mehvahdjukaar.moonlight.api.client.CoreShaderContainer;
 import net.mehvahdjukaar.moonlight.api.client.model.NestedModelLoader;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
-import net.mehvahdjukaar.supplementaries.Supplementaries;
-import net.mehvahdjukaar.supplementaries.client.block_models.BlackboardBakedModel;
 import net.minecraft.Util;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.particle.HeartParticle;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 
@@ -29,8 +34,9 @@ public class ClientRegistry {
 
     public static final Material PUMPKIN_HIGHLIGHT = new Material(LOCATION_BLOCKS, HauntedHarvest.res("block/pumpkin_highlight"));
     public static final Material PUMPKIN = new Material(LOCATION_BLOCKS, new ResourceLocation("block/pumpkin_side"));
-
     public static final Material CARVING_OUTLINE = new Material(LOCATION_BLOCKS, HauntedHarvest.res("block/carving_grid"));
+
+    public static final CoreShaderContainer BLUR_SHARED = new CoreShaderContainer(GameRenderer::getPositionTexColorShader);
 
     private static final Map<PumpkinType, Material[]> PUMPKIN_MATERIALS = Util.make(() -> {
         var l = new Object2ObjectOpenHashMap<PumpkinType, Material[]>();
@@ -74,6 +80,9 @@ public class ClientRegistry {
         ClientHelper.addTooltipComponentRegistration(ClientRegistry::registerTooltipComponent);
         ClientHelper.addSpecialModelRegistration(ClientRegistry::registerSpecialModels);
         ClientHelper.addModelLayerRegistration(ClientRegistry::registerModelLayers);
+        ClientHelper.addShaderRegistration(ClientRegistry::registerShaders);
+
+        ClientHelper.addClientSetup(ClientRegistry::setup);
     }
 
     public static void setup() {
@@ -112,7 +121,7 @@ public class ClientRegistry {
 
     @EventCalled
     private static void registerModelLoaders(ClientHelper.ModelLoaderEvent event) {
-        event.register(HauntedHarvest.res("carved_pumpkin"),  new NestedModelLoader("model", CarvedPumpkinBakedModel::new));
+        event.register(HauntedHarvest.res("carved_pumpkin"), new NestedModelLoader("model", CarvedPumpkinBakedModel::new));
     }
 
     @EventCalled
@@ -120,6 +129,16 @@ public class ClientRegistry {
         for (var v : PUMPKIN_FRAMES.values()) {
             event.register(v);
         }
+    }
+
+    @EventCalled
+    private static void registerShaders(ClientHelper.ShaderEvent event) {
+        event.register(HauntedHarvest.res("blur"), DefaultVertexFormat.POSITION_TEX, BLUR_SHARED::assign);
+    }
+
+    public static ShaderInstance getBlur() {
+        // blur.getUniform("Radius").set(8f);
+        return BLUR_SHARED.get();
     }
 
 

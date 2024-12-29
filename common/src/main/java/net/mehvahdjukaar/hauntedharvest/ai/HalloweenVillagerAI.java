@@ -29,9 +29,11 @@ public class HalloweenVillagerAI {
 
     private static final Set<Item> BABY_VILLAGER_EATABLE = new HashSet<>();
 
-    public static void setup() {
+    public static void init(){
+        VillagerAIHooks.addBrainModification(HalloweenVillagerAI::onVillagerBrainInitialize);
+    }
 
-        MoonlightEventsHelper.addListener(HalloweenVillagerAI::onVillagerBrainInitialize, IVillagerBrainEvent.class);
+    public static void setup() {
         //memories
         VillagerAIHooks.registerMemory(MemoryModuleType.ATTACK_TARGET);
         VillagerAIHooks.registerMemory(ModRegistry.PUMPKIN_POS.get());
@@ -61,7 +63,7 @@ public class HalloweenVillagerAI {
                 event.addTaskToActivity(Activity.IDLE, Pair.of(3, new PlacePumpkin(0.5f)));
             }
         } else {
-            if (!event.getVillager().isBaby()) {
+            if (!villager.isBaby()) {
                 event.addTaskToActivity(Activity.IDLE, Pair.of(3, new RemovePumpkin(0.5f)));
             }
         }

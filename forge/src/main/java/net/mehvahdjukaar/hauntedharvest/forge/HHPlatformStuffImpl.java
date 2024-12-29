@@ -26,7 +26,4 @@ public class HHPlatformStuffImpl {
         }
     }
 
-    public static ShaderInstance getBlur() {
-        return HauntedHarvestForgeClient.getBlur();
-    }
 }

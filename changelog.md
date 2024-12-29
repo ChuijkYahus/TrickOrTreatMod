@@ -1,1 +1,3 @@
-fixed mod.json
+- paper bag can hide name tags
+- paper bags can hide from endermen
+- fixed paper bag head inner model
