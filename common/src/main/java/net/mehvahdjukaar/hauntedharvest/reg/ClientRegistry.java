@@ -36,6 +36,8 @@ public class ClientRegistry {
     public static final Material PUMPKIN = new Material(LOCATION_BLOCKS, new ResourceLocation("block/pumpkin_side"));
     public static final Material CARVING_OUTLINE = new Material(LOCATION_BLOCKS, HauntedHarvest.res("block/carving_grid"));
 
+    public static final ResourceLocation PAPER_BAG_OVERLAY =HauntedHarvest.res("textures/misc/paper_bag_overlay.png");
+
     public static final CoreShaderContainer BLUR_SHARED = new CoreShaderContainer(GameRenderer::getPositionTexColorShader);
 
     private static final Map<PumpkinType, Material[]> PUMPKIN_MATERIALS = Util.make(() -> {

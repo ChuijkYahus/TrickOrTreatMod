@@ -4,11 +4,11 @@ import net.mehvahdjukaar.hauntedharvest.ai.HalloweenVillagerAI;
 import net.mehvahdjukaar.hauntedharvest.blocks.ModCarvedPumpkinBlock;
 import net.mehvahdjukaar.hauntedharvest.blocks.ModCarvedPumpkinBlockTile;
 import net.mehvahdjukaar.hauntedharvest.blocks.PumpkinType;
+import net.mehvahdjukaar.hauntedharvest.client.CarvingManager;
 import net.mehvahdjukaar.hauntedharvest.configs.CommonConfigs;
 import net.mehvahdjukaar.hauntedharvest.integration.CompatHandler;
 import net.mehvahdjukaar.hauntedharvest.network.NetworkHandler;
 import net.mehvahdjukaar.hauntedharvest.reg.*;
-import net.mehvahdjukaar.moonlight.api.entity.VillagerAIHooks;
 import net.mehvahdjukaar.moonlight.api.misc.EventCalled;
 import net.mehvahdjukaar.moonlight.api.platform.ClientHelper;
 import net.mehvahdjukaar.moonlight.api.platform.PlatHelper;
@@ -29,7 +29,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.sensing.NearestBedSensor;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
@@ -71,6 +70,8 @@ public class HauntedHarvest {
         if (PlatHelper.getPhysicalSide().isClient()) {
             ClientRegistry.init();
             ClientHelper.addClientSetup(ClientRegistry::setup);
+
+            ClientHelper.addClientReloadListener(() -> CarvingManager.INSTANCE, res("pumpkin_carvings"));
         }
         PlatHelper.addCommonSetup(HauntedHarvest::commonSetup);
 

@@ -7,9 +7,10 @@
     "SnowGolemHeadLayerMixin"
   ],
   "mixins": [
+    "CompatTurkeyEggEntityMixin",
     "SelfCarvedPumpkinItemMixin",
-    "SnowGolemMixin",
-    "CompatTurkeyEggEntityMixin"
+    "SelfPaperBagItemMixin",
+    "SnowGolemMixin"
   ],
   "plugin": "net.mehvahdjukaar.hauntedharvest.mixins.MixinPlugin",
   "injectors": {

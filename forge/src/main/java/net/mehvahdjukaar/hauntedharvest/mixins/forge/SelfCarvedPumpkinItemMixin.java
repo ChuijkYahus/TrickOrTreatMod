@@ -1,10 +1,9 @@
 package net.mehvahdjukaar.hauntedharvest.mixins.forge;
 
-import net.mehvahdjukaar.hauntedharvest.forge.PumpkinBlurGuiOverlay;
+import net.mehvahdjukaar.hauntedharvest.forge.BlurOverlay;
 import net.mehvahdjukaar.hauntedharvest.items.ModCarvedPumpkinItem;
 import net.mehvahdjukaar.moonlight.api.client.ICustomItemRendererProvider;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
-import net.minecraft.world.entity.monster.EnderMan;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +27,7 @@ public abstract class SelfCarvedPumpkinItemMixin extends Item {
 
                 @Override
                 public void renderHelmetOverlay(ItemStack stack, Player player, int width, int height, float partialTick) {
-                    PumpkinBlurGuiOverlay.INSTANCE.renderPumpkin(stack, width, height);
+                    BlurOverlay.renderPumpkin(stack, width, height);
                 }
 
                 final NonNullLazy<BlockEntityWithoutLevelRenderer> renderer = NonNullLazy.of(provider.getRendererFactory()::get);

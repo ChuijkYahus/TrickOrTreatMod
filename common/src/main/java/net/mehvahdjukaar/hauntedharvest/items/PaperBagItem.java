@@ -10,6 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
+import static net.mehvahdjukaar.hauntedharvest.configs.CommonConfigs.PAPER_BAG_ENDERMAN;
+
 public class PaperBagItem extends BlockItem {
 
     public PaperBagItem(Block block, Properties properties) {
@@ -23,6 +25,6 @@ public class PaperBagItem extends BlockItem {
 
     @PlatformOnly(PlatformOnly.FORGE)
     public boolean isEnderMask(ItemStack stack, Player player, EnderMan enderMan) {
-        return true;
+        return PAPER_BAG_ENDERMAN.get();
     }
 }

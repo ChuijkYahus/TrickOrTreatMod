@@ -16,18 +16,35 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.inventory.tooltip.TooltipComponent;
 import org.jetbrains.annotations.Nullable;
 import oshi.annotation.concurrent.Immutable;
 
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 
-public class CarvingManager {
+public class CarvingManager implements PreparableReloadListener {
+
+    public static final CarvingManager INSTANCE = new CarvingManager();
+
+    @Override
+    public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager,
+                                          ProfilerFiller profilerFiller, ProfilerFiller profilerFiller2,
+                                          Executor executor, Executor executor2) {
+
+        Objects.requireNonNull(preparationBarrier);
+        return CompletableFuture.completedFuture(null)
+                .thenCompose(preparationBarrier::wait)
+                .thenAcceptAsync((preparation) -> {
+                    onTextureReload();
+                }, executor2);
+    }
 
     private static final LoadingCache<Key, Carving> TEXTURE_CACHE = CacheBuilder.newBuilder()
             .expireAfterAccess(2, TimeUnit.MINUTES)
@@ -174,12 +191,21 @@ public class CarvingManager {
                         PumpkinTextureGenerator.drawBlur(t, carving);
                         pumpkinBlur = t;
                     }, false);
+
             return null;
         } else if (carving != currentCarvingBlur) {
             PumpkinTextureGenerator.drawBlur(pumpkinBlur, carving);
         }
         currentCarvingBlur = carving;
         return pumpkinBlur.getTextureLocation();
+    }
+
+    public static void onTextureReload() {
+        //idk why its needed. probably due to some bigger underlying bug
+        if (pumpkinBlur != null) {
+            pumpkinBlur.close();
+            pumpkinBlur = null;
+        }
     }
 
     //no need to register a bunch of these just having one since theres only one player
